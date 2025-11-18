@@ -1,0 +1,61 @@
+// This is your Prisma schema file
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+generator client {
+  provider             = "go run github.com/steebchen/prisma-client-go"
+  previewFeatures      = ["multiSchema"]
+  recursive_type_depth = "5"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+  schemas   = ["public"]
+}
+
+// Add your models here
+// Example:
+// model User {
+//   id        String   @id @default(uuid())
+//   email     String   @unique
+//   name      String?
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+//
+//   @@schema("public")
+
+
+model Organizer {
+  id String @id @default(uuid())
+  name String
+  email String @unique
+  phone String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  events Event[]
+
+  @@schema("public")
+}
+
+
+model Event {
+  id String @id @default(uuid())
+  name String
+  description String
+  startDate DateTime
+  startTime DateTime
+  price  Decimal
+  endDate DateTime
+  location String
+  capacity Int
+  imageUrl String
+  category String
+  organizerId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  organizer Organizer @relation(fields: [organizerId], references: [id])
+
+  @@schema("public")
+}

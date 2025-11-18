@@ -1,0 +1,20 @@
+service:
+  name: "event-service"
+  slug: "event-service"
+  description: "event-service microservice API"
+  version: "0.1.0"
+  tags:
+    - "template"
+    - "go"
+
+server:
+  host: "0.0.0.0"
+  port: ":8085"
+  gin_mode: "debug" # debug, release, test
+
+jwt:
+  secret: "change-me"
+
+supabase:
+  url: "https://your-project.supabase.co"
+  anon_key: "your-anon-key-here"
