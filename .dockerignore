@@ -1,0 +1,49 @@
+# Git
+.git
+.gitignore
+
+# Documentation
+*.md
+docs/
+
+# Logs
+logs/
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test files
+*_test.go
+*.test
+
+# Prisma generated files (werden im Container generiert)
+prisma/db/*_gen.go
+
+# Helm charts
+dws-event-service/
+
+# Scripts
+scripts/
+*.sh
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
