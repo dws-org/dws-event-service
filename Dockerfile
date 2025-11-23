@@ -10,11 +10,16 @@ WORKDIR /app
 # Den gesamten Quellcode in das Arbeitsverzeichnis kopieren
 COPY . /app
 
+
 # Prisma-Client generieren (falls in Ihrem Projekt benötigt)
-RUN ["make", "generate"]
+RUN go run github.com/steebchen/prisma-client-go generate
+
+
+
+
 
 # Port freigeben – wählen Sie den Port, auf dem Ihr Server läuft
 EXPOSE 6906
 
-# Standardbefehl: Makefile-Task "run" ausführen
-CMD ["make", "run"]
+# Standardbefehl: Server starten
+CMD ["go", "run", "main.go"]

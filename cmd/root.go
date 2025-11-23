@@ -1,11 +1,12 @@
 package cmd
 
 import (
-	"github.com/oskargbc/dws-event-service.git/configs"
 	"embed"
 	"fmt"
 	"os"
 	"strings"
+
+	"github.com/oskargbc/dws-event-service.git/configs"
 
 	"github.com/spf13/cobra"
 )
@@ -38,7 +39,8 @@ func init() {
 	rootCmd.Short = serviceDescription
 	rootCmd.Long = fmt.Sprintf("%s\nService: %s\nVersion: %s", serviceDescription, serviceName, envCfg.Service.Version)
 	rootCmd.Run = func(cmd *cobra.Command, args []string) {
-		fmt.Printf("Welcome to %s. Use -h to see available commands.\n", serviceName)
+		// Start server by default when no command is provided
+		run()
 	}
 
 	rootCmd.AddCommand(ServerStartCmd) // add server start command

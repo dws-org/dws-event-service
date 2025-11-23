@@ -8,8 +8,7 @@ generator client {
 
 datasource db {
   provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
+  url       = "postgresql://postgres:w5f7eE-CJrTjPl-DfYZkV@localhost:5432/postgres?schema=public"
   schemas   = ["public"]
 }
 

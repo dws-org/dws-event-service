@@ -10,7 +10,7 @@ format:
 fmt: format
 
 run:
-	go run ./main.go server 
+	go run main.go 
 
 generate:
 	go run github.com/steebchen/prisma-client-go generate
@@ -20,6 +20,10 @@ dbpush:
 
 dbpull:
 	go run github.com/steebchen/prisma-client-go db pull
+
+
+migrate:
+	go run github.com/steebchen/prisma-client-go migrate dev
 
 # Docker variables - setze diese Variablen oder überschreibe sie beim Aufruf
 DOCKER_REGISTRY ?= docker.io

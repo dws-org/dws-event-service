@@ -9,7 +9,7 @@ replicaCount: 1
 image:
   repository: ghcr.io/oskargbc/dws-event-service
 # This sets the pull policy for images.
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
 # Overrides the image tag whose default is the chart appVersion.
   tag: "latest"
 
@@ -38,6 +38,11 @@ podAnnotations: {}
 # This is for setting Kubernetes Labels to a Pod.
 # For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
 podLabels: {}
+
+# Environment variables for the container
+env:
+  - name: DATABASE_URL
+    value: "postgresql://postgres:w5f7eE-CJrTjPl-DfYZkV@postgres-service.db.svc.cluster.local:5432/postgres?schema=public"
 
 podSecurityContext: {}
   # fsGroup: 2000
