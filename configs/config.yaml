@@ -9,7 +9,7 @@ service:
 
 server:
   host: "0.0.0.0"
-  port: ":8085"
+  port: ":6906"
   gin_mode: "debug" # debug, release, test
 
 jwt:

@@ -2128,3 +2128,62 @@
 {"level":"info","msg":"Starting event-service on port :8085","time":"2025-11-11T11:08:29+01:00"}
 {"level":"info","msg":"Server receive a signal:  interrupt","time":"2025-11-11T11:08:37+01:00"}
 {"level":"info","msg":"Server exiting","time":"2025-11-11T11:08:37+01:00"}
+{"level":"info","msg":"connected to database","time":"2025-11-18T11:36:06+01:00"}
+{"level":"info","msg":"[GIN-debug] [WARNING] Creating an Engine instance with the Logger and Recovery middleware already attached.","time":"2025-11-18T11:36:06+01:00"}
+{"level":"info","msg":"","time":"2025-11-18T11:36:06+01:00"}
+{"level":"info","msg":"[GIN-debug] [WARNING] Running in \"debug\" mode. Switch to \"release\" mode in production.","time":"2025-11-18T11:36:06+01:00"}
+{"level":"info","msg":" - using env:\texport GIN_MODE=release","time":"2025-11-18T11:36:06+01:00"}
+{"level":"info","msg":" - using code:\tgin.SetMode(gin.ReleaseMode)","time":"2025-11-18T11:36:06+01:00"}
+{"level":"info","msg":"","time":"2025-11-18T11:36:06+01:00"}
+{"level":"info","msg":"[GIN-debug] GET    /livez                    --\u003e github.com/oskargbc/dws-event-service.git/internal/controllers/health.(*Controller).Live-fm (5 handlers)","time":"2025-11-18T11:36:06+01:00"}
+{"level":"info","msg":"[GIN-debug] GET    /readyz                   --\u003e github.com/oskargbc/dws-event-service.git/internal/controllers/health.(*Controller).Ready-fm (5 handlers)","time":"2025-11-18T11:36:06+01:00"}
+{"level":"info","msg":"[GIN-debug] GET    /healthz                  --\u003e github.com/oskargbc/dws-event-service.git/internal/controllers/health.(*Controller).Ready-fm (5 handlers)","time":"2025-11-18T11:36:06+01:00"}
+{"level":"info","msg":"[GIN-debug] GET    /_meta                    --\u003e github.com/oskargbc/dws-event-service.git/internal/controllers/health.(*Controller).Info-fm (5 handlers)","time":"2025-11-18T11:36:06+01:00"}
+{"level":"info","msg":"[GIN-debug] GET    /api/v1/events            --\u003e github.com/oskargbc/dws-event-service.git/internal/controllers/events.(*Controller).GetEvents-fm (5 handlers)","time":"2025-11-18T11:36:06+01:00"}
+{"level":"info","msg":"[GIN-debug] GET    /api/v1/events/:id        --\u003e github.com/oskargbc/dws-event-service.git/internal/controllers/events.(*Controller).GetEventByID-fm (5 handlers)","time":"2025-11-18T11:36:06+01:00"}
+{"level":"info","msg":"Starting event-service on port :8085","time":"2025-11-18T11:36:06+01:00"}
+{"level":"info","msg":"[GIN] 2025/11/18 - 11:36:27 | 404 |      10.666µs |             ::1 | GET      \"/\"","time":"2025-11-18T11:36:27+01:00"}
+{"level":"info","msg":"[GIN] 2025/11/18 - 11:36:28 | 404 |       2.916µs |             ::1 | GET      \"/favicon.ico\"","time":"2025-11-18T11:36:28+01:00"}
+{"level":"info","msg":"[GIN] 2025/11/18 - 11:36:28 | 404 |        2.25µs |             ::1 | GET      \"/\"","time":"2025-11-18T11:36:28+01:00"}
+{"level":"info","msg":"[GIN] 2025/11/18 - 11:36:37 | 200 |  441.925667ms |             ::1 | GET      \"/api/v1/events\"","time":"2025-11-18T11:36:37+01:00"}
+{"level":"info","msg":"[GIN] 2025/11/18 - 11:36:38 | 200 |  317.995042ms |             ::1 | GET      \"/api/v1/events\"","time":"2025-11-18T11:36:38+01:00"}
+{"level":"info","msg":"[GIN] 2025/11/18 - 11:36:44 | 200 |  336.841625ms |             ::1 | GET      \"/api/v1/events/01012\"","time":"2025-11-18T11:36:44+01:00"}
+{"level":"info","msg":"[GIN] 2025/11/18 - 11:36:44 | 200 |   260.64825ms |             ::1 | GET      \"/api/v1/events/01012\"","time":"2025-11-18T11:36:44+01:00"}
+{"level":"info","msg":"Server receive a signal:  interrupt","time":"2025-11-18T11:38:23+01:00"}
+{"level":"info","msg":"Server exiting","time":"2025-11-18T11:38:23+01:00"}
+{"level":"info","msg":"connected to database","time":"2025-11-18T11:38:26+01:00"}
+{"level":"info","msg":"[GIN-debug] [WARNING] Creating an Engine instance with the Logger and Recovery middleware already attached.","time":"2025-11-18T11:38:26+01:00"}
+{"level":"info","msg":"","time":"2025-11-18T11:38:26+01:00"}
+{"level":"info","msg":"[GIN-debug] [WARNING] Running in \"debug\" mode. Switch to \"release\" mode in production.","time":"2025-11-18T11:38:26+01:00"}
+{"level":"info","msg":" - using env:\texport GIN_MODE=release","time":"2025-11-18T11:38:26+01:00"}
+{"level":"info","msg":" - using code:\tgin.SetMode(gin.ReleaseMode)","time":"2025-11-18T11:38:26+01:00"}
+{"level":"info","msg":"","time":"2025-11-18T11:38:26+01:00"}
+{"level":"info","msg":"[GIN-debug] GET    /livez                    --\u003e github.com/oskargbc/dws-event-service.git/internal/controllers/health.(*Controller).Live-fm (5 handlers)","time":"2025-11-18T11:38:26+01:00"}
+{"level":"info","msg":"[GIN-debug] GET    /readyz                   --\u003e github.com/oskargbc/dws-event-service.git/internal/controllers/health.(*Controller).Ready-fm (5 handlers)","time":"2025-11-18T11:38:26+01:00"}
+{"level":"info","msg":"[GIN-debug] GET    /healthz                  --\u003e github.com/oskargbc/dws-event-service.git/internal/controllers/health.(*Controller).Ready-fm (5 handlers)","time":"2025-11-18T11:38:26+01:00"}
+{"level":"info","msg":"[GIN-debug] GET    /_meta                    --\u003e github.com/oskargbc/dws-event-service.git/internal/controllers/health.(*Controller).Info-fm (5 handlers)","time":"2025-11-18T11:38:26+01:00"}
+{"level":"info","msg":"[GIN-debug] GET    /api/v1/events            --\u003e github.com/oskargbc/dws-event-service.git/internal/controllers/events.(*Controller).GetEvents-fm (5 handlers)","time":"2025-11-18T11:38:26+01:00"}
+{"level":"info","msg":"Starting event-service on port :8085","time":"2025-11-18T11:38:26+01:00"}
+{"level":"info","msg":"[GIN-debug] GET    /api/v1/events/:id        --\u003e github.com/oskargbc/dws-event-service.git/internal/controllers/events.(*Controller).GetEventByID-fm (5 handlers)","time":"2025-11-18T11:38:26+01:00"}
+{"level":"info","msg":"[GIN] 2025/11/18 - 11:38:26 | 200 |  313.553417ms |             ::1 | GET      \"/api/v1/events/01012\"","time":"2025-11-18T11:38:26+01:00"}
+{"level":"info","msg":"[GIN] 2025/11/18 - 11:38:27 | 200 |  298.122291ms |             ::1 | GET      \"/api/v1/events/01012\"","time":"2025-11-18T11:38:27+01:00"}
+{"level":"info","msg":"[GIN] 2025/11/18 - 11:38:31 | 200 |  347.399375ms |             ::1 | GET      \"/api/v1/events\"","time":"2025-11-18T11:38:31+01:00"}
+{"level":"info","msg":"[GIN] 2025/11/18 - 11:38:32 | 200 |  273.764166ms |             ::1 | GET      \"/api/v1/events\"","time":"2025-11-18T11:38:32+01:00"}
+{"level":"info","msg":"Server receive a signal:  interrupt","time":"2025-11-18T11:38:35+01:00"}
+{"level":"info","msg":"Server exiting","time":"2025-11-18T11:38:35+01:00"}
+{"level":"info","msg":"connected to database","time":"2025-11-23T17:08:20+01:00"}
+{"level":"info","msg":"[GIN-debug] [WARNING] Creating an Engine instance with the Logger and Recovery middleware already attached.","time":"2025-11-23T17:08:20+01:00"}
+{"level":"info","msg":"","time":"2025-11-23T17:08:20+01:00"}
+{"level":"info","msg":"[GIN-debug] [WARNING] Running in \"debug\" mode. Switch to \"release\" mode in production.","time":"2025-11-23T17:08:20+01:00"}
+{"level":"info","msg":" - using env:\texport GIN_MODE=release","time":"2025-11-23T17:08:20+01:00"}
+{"level":"info","msg":" - using code:\tgin.SetMode(gin.ReleaseMode)","time":"2025-11-23T17:08:20+01:00"}
+{"level":"info","msg":"","time":"2025-11-23T17:08:20+01:00"}
+{"level":"info","msg":"[GIN-debug] GET    /livez                    --\u003e github.com/oskargbc/dws-event-service.git/internal/controllers/health.(*Controller).Live-fm (5 handlers)","time":"2025-11-23T17:08:20+01:00"}
+{"level":"info","msg":"[GIN-debug] GET    /readyz                   --\u003e github.com/oskargbc/dws-event-service.git/internal/controllers/health.(*Controller).Ready-fm (5 handlers)","time":"2025-11-23T17:08:20+01:00"}
+{"level":"info","msg":"[GIN-debug] GET    /healthz                  --\u003e github.com/oskargbc/dws-event-service.git/internal/controllers/health.(*Controller).Ready-fm (5 handlers)","time":"2025-11-23T17:08:20+01:00"}
+{"level":"info","msg":"[GIN-debug] GET    /_meta                    --\u003e github.com/oskargbc/dws-event-service.git/internal/controllers/health.(*Controller).Info-fm (5 handlers)","time":"2025-11-23T17:08:20+01:00"}
+{"level":"info","msg":"[GIN-debug] GET    /api/v1/events            --\u003e github.com/oskargbc/dws-event-service.git/internal/controllers/events.(*Controller).GetEvents-fm (5 handlers)","time":"2025-11-23T17:08:20+01:00"}
+{"level":"info","msg":"[GIN-debug] GET    /api/v1/events/:id        --\u003e github.com/oskargbc/dws-event-service.git/internal/controllers/events.(*Controller).GetEventByID-fm (5 handlers)","time":"2025-11-23T17:08:20+01:00"}
+{"level":"info","msg":"Starting event-service on port :6906","time":"2025-11-23T17:08:20+01:00"}
+{"level":"info","msg":"Server receive a signal:  interrupt","time":"2025-11-23T17:08:21+01:00"}
+{"level":"info","msg":"Server exiting","time":"2025-11-23T17:08:21+01:00"}

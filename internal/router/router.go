@@ -1,6 +1,7 @@
 package router
 
 import (
+	"github.com/oskargbc/dws-event-service.git/internal/controllers/events"
 	"github.com/oskargbc/dws-event-service.git/internal/controllers/health"
 	"github.com/oskargbc/dws-event-service.git/internal/middlewares"
 	"github.com/oskargbc/dws-event-service.git/internal/pkg/logger"
@@ -40,8 +41,13 @@ func NewGinRouter(mode string) *gin.Engine {
 
 	//	router.Use(APIKeyAuthMiddleware())
 
-	// Add your routes here
-	// Example: SetupExampleRoutes(router)
+	// API v1 routes
+	v1 := router.Group("/api/v1")
+	{
+		eventsController := events.NewController()
+		v1.GET("/events", eventsController.GetEvents)
+		v1.GET("/events/:id", eventsController.GetEventByID)
+	}
 
 	return router
 }

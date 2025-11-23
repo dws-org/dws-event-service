@@ -50,6 +50,11 @@ func (d *DatabaseService) DbDisconnect() {
 	}
 }
 
+// GetClient returns the Prisma client instance
+func (d *DatabaseService) GetClient() *db.PrismaClient {
+	return d.client
+}
+
 // HealthCheck validates that the Prisma client is initialized. Extend this method
 // with domain-specific checks (for example, SELECT 1 queries) once your schema
 // is in place.
