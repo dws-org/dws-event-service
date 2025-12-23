@@ -1,11 +1,12 @@
 package health
 
 import (
-	"github.com/oskargbc/dws-event-service.git/configs"
-	"github.com/oskargbc/dws-event-service.git/internal/services"
 	"context"
 	"net/http"
 	"time"
+
+	"github.com/oskargbc/dws-event-service.git/configs"
+	"github.com/oskargbc/dws-event-service.git/internal/services"
 
 	"github.com/gin-gonic/gin"
 )
@@ -43,6 +44,10 @@ func (hc *Controller) Ready(c *gin.Context) {
 	ctx, cancel := context.WithTimeout(c.Request.Context(), 2*time.Second)
 	defer cancel()
 
+	envConfig := configs.GetEnvConfig()
+	checks := gin.H{}
+
+	// Database health check
 	dbStatus := "skipped"
 	if dbService := services.GetDatabaseSeviceInstance(); dbService != nil {
 		if err := dbService.HealthCheck(ctx); err != nil {
@@ -61,16 +66,36 @@ func (hc *Controller) Ready(c *gin.Context) {
 		}
 		dbStatus = "ok"
 	}
+	checks["database"] = gin.H{"status": dbStatus}
+
+	// RabbitMQ health check
+	if envConfig.RabbitMQ.Enabled {
+		rabbitmqStatus := "skipped"
+		if rabbitmqService := services.GetRabbitMQServiceInstance(); rabbitmqService != nil {
+			if err := rabbitmqService.HealthCheck(ctx); err != nil {
+				c.JSON(http.StatusServiceUnavailable, gin.H{
+					"status":  "fail",
+					"service": hc.service.Slug,
+					"version": hc.service.Version,
+					"checks": gin.H{
+						"rabbitmq": gin.H{
+							"status":  "fail",
+							"details": err.Error(),
+						},
+					},
+				})
+				return
+			}
+			rabbitmqStatus = "ok"
+		}
+		checks["rabbitmq"] = gin.H{"status": rabbitmqStatus}
+	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"status":  "ok",
-		"service": hc.service.Slug,
-		"version": hc.service.Version,
-		"checks": gin.H{
-			"database": gin.H{
-				"status": dbStatus,
-			},
-		},
+		"status":    "ok",
+		"service":   hc.service.Slug,
+		"version":   hc.service.Version,
+		"checks":    checks,
 		"timestamp": time.Now().UTC(),
 	})
 }

@@ -4,6 +4,7 @@ import (
 	"github.com/oskargbc/dws-event-service.git/docs"
 	"github.com/oskargbc/dws-event-service.git/internal/controllers/events"
 	"github.com/oskargbc/dws-event-service.git/internal/controllers/health"
+	rabbitmqController "github.com/oskargbc/dws-event-service.git/internal/controllers/rabbitmq"
 	"github.com/oskargbc/dws-event-service.git/internal/middlewares"
 	"github.com/oskargbc/dws-event-service.git/internal/pkg/logger"
 
@@ -44,9 +45,24 @@ func NewGinRouter(mode string) *gin.Engine {
 	router.GET("/readyz", healthController.Ready)
 	router.GET("/healthz", healthController.Ready)
 	router.GET("/_meta", healthController.Info)
+
+	/*
+	* ONLY FOR TESTING PURPOSESr 
+	*/
+
+	// RabbitMQ test endpoints (no auth required for testing)
+	rabbitmqTestController := rabbitmqController.NewController()
+	router.GET("/rabbitmq/test", rabbitmqTestController.TestConnection)
+	router.POST("/rabbitmq/publish", rabbitmqTestController.PublishTestMessage)
+	router.POST("/rabbitmq/setup", rabbitmqTestController.SetupTestExchangeAndQueue)
+
 	// Swagger UI and OpenAPI JSON endpoints (no auth)
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
+
+	/*
+	* LIVE
+	*/
 	//	router.Use(APIKeyAuthMiddleware())
 
 	// API v1 routes (protected by Keycloak auth middleware)

@@ -38,3 +38,24 @@ keycloak:
   # Set to true for development/testing with self-signed certificates.
   # WARNING: Only use this in development, never in production!
   skip_tls_verify: true
+
+# RabbitMQ configuration
+rabbitmq:
+  # Enable/disable RabbitMQ integration
+  enabled: true
+  
+  # RabbitMQ server host (use 'localhost' when port-forwarding)
+  host: "localhost"
+  
+  # AMQP port (default: 5672)
+  port: "5672"
+  
+  # Management UI port (default: 15672)
+  management_port: "15672"
+  
+  # RabbitMQ credentials
+  username: "admin"
+  password: "admin"
+  
+  # Virtual host (default: "/")
+  virtual_host: "/"

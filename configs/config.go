@@ -14,6 +14,7 @@ type Config struct {
 	Server   Server
 	Supabase Supabase
 	Keycloak Keycloak
+	RabbitMQ RabbitMQ
 }
 
 var EnvConfig *Config

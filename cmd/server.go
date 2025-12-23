@@ -35,6 +35,15 @@ func run() {
 	dbService := services.GetDatabaseSeviceInstance()
 	defer dbService.DbDisconnect()
 
+	// Initialize RabbitMQ connection if enabled
+	var rabbitmqService *services.RabbitMQService
+	if envConfig.RabbitMQ.Enabled {
+		rabbitmqService = services.GetRabbitMQServiceInstance()
+		if rabbitmqService != nil {
+			defer rabbitmqService.Close()
+		}
+	}
+
 	// Verify database connection is working before starting server
 	logger := logger.NewLogrusLogger()
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
@@ -44,6 +53,14 @@ func run() {
 		logger.Fatalf("Database health check failed: %v. Make sure DATABASE_URL is set correctly and database is accessible.", err)
 	}
 	logger.Infoln("Database connection verified successfully")
+
+	// Verify RabbitMQ connection if enabled
+	if envConfig.RabbitMQ.Enabled && rabbitmqService != nil {
+		if err := rabbitmqService.HealthCheck(ctx); err != nil {
+			logger.Fatalf("RabbitMQ health check failed: %v. Make sure RabbitMQ is accessible.", err)
+		}
+		logger.Infoln("RabbitMQ connection verified successfully")
+	}
 
 	router := router.NewGinRouter(envConfig.Server.GinMode)
 
