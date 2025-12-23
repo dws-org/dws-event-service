@@ -13,6 +13,7 @@ type Config struct {
 	JWT      JWT
 	Server   Server
 	Supabase Supabase
+	Keycloak Keycloak
 }
 
 var EnvConfig *Config

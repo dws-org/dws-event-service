@@ -1,17 +1,23 @@
 package router
 
 import (
+	"github.com/oskargbc/dws-event-service.git/docs"
 	"github.com/oskargbc/dws-event-service.git/internal/controllers/events"
 	"github.com/oskargbc/dws-event-service.git/internal/controllers/health"
 	"github.com/oskargbc/dws-event-service.git/internal/middlewares"
 	"github.com/oskargbc/dws-event-service.git/internal/pkg/logger"
 
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 func NewGinRouter(mode string) *gin.Engine {
 
 	gin.SetMode(mode)
+
+	// Configure Swagger base path to match our API prefix
+	docs.SwaggerInfo.BasePath = "/api/v1"
 
 	gin.DefaultWriter = logger.NewLogrusLogger().Writer()
 
@@ -38,15 +44,19 @@ func NewGinRouter(mode string) *gin.Engine {
 	router.GET("/readyz", healthController.Ready)
 	router.GET("/healthz", healthController.Ready)
 	router.GET("/_meta", healthController.Info)
+	// Swagger UI and OpenAPI JSON endpoints (no auth)
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	//	router.Use(APIKeyAuthMiddleware())
 
-	// API v1 routes
-	v1 := router.Group("/api/v1")
+	// API v1 routes (protected by Keycloak auth middleware)
+	v1 := router.Group("/api/v1", middlewares.KeycloakAuthMiddleware())
 	{
 		eventsController := events.NewController()
 		v1.GET("/events", eventsController.GetEvents)
 		v1.GET("/events/:id", eventsController.GetEventByID)
+		// Only users with the "Organiser" realm role may create events
+		v1.POST("/events", middlewares.RequireRole("Organiser"), eventsController.CreateEvent)
 	}
 
 	return router

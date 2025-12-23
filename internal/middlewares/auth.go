@@ -17,7 +17,8 @@ import (
 type UserContextKey string
 
 const (
-	UserIDKey UserContextKey = "user_id"
+	UserIDKey    UserContextKey = "user_id"
+	UserRolesKey UserContextKey = "user_roles"
 )
 
 // AuthMiddleware extracts user ID from Supabase JWT token and stores it in context
@@ -75,4 +76,10 @@ func AuthMiddleware() gin.HandlerFunc {
 func GetUserIDFromContext(c *gin.Context) (string, bool) {
 	userID, exists := c.Request.Context().Value(UserIDKey).(string)
 	return userID, exists
+}
+
+// GetUserRolesFromContext extracts user roles from the request context
+func GetUserRolesFromContext(c *gin.Context) ([]string, bool) {
+	roles, exists := c.Request.Context().Value(UserRolesKey).([]string)
+	return roles, exists
 }

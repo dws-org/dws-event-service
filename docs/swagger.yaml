@@ -1,0 +1,121 @@
+definitions:
+  events.CreateEventRequest:
+    description: Event creation payload
+    properties:
+      capacity:
+        type: integer
+      category:
+        type: string
+      description:
+        type: string
+      endDate:
+        type: string
+      imageUrl:
+        type: string
+      location:
+        type: string
+      name:
+        type: string
+      organizerId:
+        type: string
+      price:
+        type: number
+      startDate:
+        type: string
+      startTime:
+        type: string
+    required:
+    - capacity
+    - category
+    - description
+    - endDate
+    - imageUrl
+    - location
+    - name
+    - organizerId
+    - price
+    - startDate
+    - startTime
+    type: object
+info:
+  contact: {}
+paths:
+  /events:
+    get:
+      description: Returns a list of all events
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              additionalProperties: true
+              type: object
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: List events
+      tags:
+      - events
+    post:
+      consumes:
+      - application/json
+      description: Creates a new event
+      parameters:
+      - description: Event to create
+        in: body
+        name: event
+        required: true
+        schema:
+          $ref: '#/definitions/events.CreateEventRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create a new event
+      tags:
+      - events
+  /events/{id}:
+    get:
+      description: Returns a single event by its ID
+      parameters:
+      - description: Event ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get event by ID
+      tags:
+      - events
+swagger: "2.0"
