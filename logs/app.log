@@ -2569,3 +2569,22 @@
 {"level":"info","msg":"[GIN] 2025/12/23 - 12:43:59 | 200 |      36.583µs |             ::1 | GET      \"/swagger/favicon-32x32.png\"","time":"2025-12-23T12:43:59+01:00"}
 {"level":"info","msg":"Server receive a signal:  interrupt","time":"2025-12-23T12:44:33+01:00"}
 {"level":"info","msg":"Server exiting","time":"2025-12-23T12:44:33+01:00"}
+{"level":"info","msg":"connected to database","time":"2025-12-23T12:48:58+01:00"}
+{"level":"info","msg":"Database connection verified successfully","time":"2025-12-23T12:48:59+01:00"}
+{"level":"info","msg":"[GIN-debug] [WARNING] Creating an Engine instance with the Logger and Recovery middleware already attached.","time":"2025-12-23T12:48:59+01:00"}
+{"level":"info","msg":"","time":"2025-12-23T12:48:59+01:00"}
+{"level":"info","msg":"[GIN-debug] [WARNING] Running in \"debug\" mode. Switch to \"release\" mode in production.","time":"2025-12-23T12:48:59+01:00"}
+{"level":"info","msg":" - using env:\texport GIN_MODE=release","time":"2025-12-23T12:48:59+01:00"}
+{"level":"info","msg":" - using code:\tgin.SetMode(gin.ReleaseMode)","time":"2025-12-23T12:48:59+01:00"}
+{"level":"info","msg":"","time":"2025-12-23T12:48:59+01:00"}
+{"level":"info","msg":"[GIN-debug] GET    /livez                    --\u003e github.com/oskargbc/dws-event-service.git/internal/controllers/health.(*Controller).Live-fm (5 handlers)","time":"2025-12-23T12:48:59+01:00"}
+{"level":"info","msg":"[GIN-debug] GET    /readyz                   --\u003e github.com/oskargbc/dws-event-service.git/internal/controllers/health.(*Controller).Ready-fm (5 handlers)","time":"2025-12-23T12:48:59+01:00"}
+{"level":"info","msg":"[GIN-debug] GET    /healthz                  --\u003e github.com/oskargbc/dws-event-service.git/internal/controllers/health.(*Controller).Ready-fm (5 handlers)","time":"2025-12-23T12:48:59+01:00"}
+{"level":"info","msg":"[GIN-debug] GET    /_meta                    --\u003e github.com/oskargbc/dws-event-service.git/internal/controllers/health.(*Controller).Info-fm (5 handlers)","time":"2025-12-23T12:48:59+01:00"}
+{"level":"info","msg":"[GIN-debug] GET    /swagger/*any             --\u003e github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (5 handlers)","time":"2025-12-23T12:48:59+01:00"}
+{"level":"info","msg":"[GIN-debug] GET    /api/v1/events            --\u003e github.com/oskargbc/dws-event-service.git/internal/controllers/events.(*Controller).GetEvents-fm (6 handlers)","time":"2025-12-23T12:48:59+01:00"}
+{"level":"info","msg":"[GIN-debug] GET    /api/v1/events/:id        --\u003e github.com/oskargbc/dws-event-service.git/internal/controllers/events.(*Controller).GetEventByID-fm (6 handlers)","time":"2025-12-23T12:48:59+01:00"}
+{"level":"info","msg":"Starting event-service on port :6906","time":"2025-12-23T12:48:59+01:00"}
+{"level":"info","msg":"[GIN-debug] POST   /api/v1/events            --\u003e github.com/oskargbc/dws-event-service.git/internal/controllers/events.(*Controller).CreateEvent-fm (7 handlers)","time":"2025-12-23T12:48:59+01:00"}
+{"level":"info","msg":"Server receive a signal:  interrupt","time":"2025-12-23T12:49:00+01:00"}
+{"level":"info","msg":"Server exiting","time":"2025-12-23T12:49:00+01:00"}

@@ -11,7 +11,7 @@ datasource db {
   // Use DATABASE_URL env var so you can point Prisma at either:
   // - your local port-forwarded DB: postgresql://postgres:w5f7eE-CJrTjPl-DfYZkV@localhost:5432/postgres?schema=public
   // - or the in-cluster URL used by Kubernetes / Helm
-  url      = env("DATABASE_URL")
+  url       = "postgresql://postgres:w5f7eE-CJrTjPl-DfYZkV@localhost:5432/postgres?schema=public"
   schemas  = ["public"]
 }
 
