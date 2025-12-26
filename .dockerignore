@@ -4,7 +4,7 @@
 
 # Documentation
 *.md
-docs/
+#docs/
 
 # Logs
 logs/
