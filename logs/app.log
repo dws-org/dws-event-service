@@ -2590,3 +2590,5 @@
 {"level":"debug","msg":"Keycloak auth: Authorization header missing","time":"2025-12-26T09:59:47+01:00"}
 {"level":"info","msg":"[GIN] 2025/12/26 - 09:59:47 | 401 |     609.334µs |             ::1 | GET      \"/api/v1/events\"","time":"2025-12-26T09:59:47+01:00"}
 {"level":"info","msg":"[GIN] 2025/12/26 - 09:59:47 | 404 |       8.292µs |             ::1 | GET      \"/favicon.ico\"","time":"2025-12-26T09:59:47+01:00"}
+{"level":"info","msg":"Server receive a signal:  interrupt","time":"2025-12-26T10:07:23+01:00"}
+{"level":"info","msg":"Server exiting","time":"2025-12-26T10:07:23+01:00"}

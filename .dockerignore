@@ -33,7 +33,7 @@ Thumbs.db
 *.test
 
 # Prisma generated files (werden im Container generiert)
-prisma/db/*_gen.go
+#prisma/db/*_gen.go
 
 # Helm charts
 dws-event-service/
