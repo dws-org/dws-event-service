@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/oskargbc/dws-event-service.git/configs"
+	"github.com/dws-org/dws-event-service/configs"
 
 	"github.com/golang-jwt/jwt/v5"
 )

@@ -15,8 +15,8 @@ import (
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
-	"github.com/oskargbc/dws-event-service.git/configs"
-	"github.com/oskargbc/dws-event-service.git/internal/pkg/logger"
+	"github.com/dws-org/dws-event-service/configs"
+	"github.com/dws-org/dws-event-service/internal/pkg/logger"
 
 	"github.com/gin-gonic/gin"
 )

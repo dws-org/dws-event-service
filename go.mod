@@ -1,4 +1,4 @@
-module github.com/oskargbc/dws-event-service.git
+module github.com/dws-org/dws-event-service
 
 go 1.23.1
 

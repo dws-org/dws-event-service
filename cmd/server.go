@@ -8,10 +8,10 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/oskargbc/dws-event-service.git/configs"
-	"github.com/oskargbc/dws-event-service.git/internal/pkg/logger"
-	"github.com/oskargbc/dws-event-service.git/internal/router"
-	"github.com/oskargbc/dws-event-service.git/internal/services"
+	"github.com/dws-org/dws-event-service/configs"
+	"github.com/dws-org/dws-event-service/internal/pkg/logger"
+	"github.com/dws-org/dws-event-service/internal/router"
+	"github.com/dws-org/dws-event-service/internal/services"
 
 	"github.com/spf13/cobra"
 )

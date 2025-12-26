@@ -1,11 +1,11 @@
 package router
 
 import (
-	"github.com/oskargbc/dws-event-service.git/docs"
-	"github.com/oskargbc/dws-event-service.git/internal/controllers/events"
-	"github.com/oskargbc/dws-event-service.git/internal/controllers/health"
-	"github.com/oskargbc/dws-event-service.git/internal/middlewares"
-	"github.com/oskargbc/dws-event-service.git/internal/pkg/logger"
+	"github.com/dws-org/dws-event-service/docs"
+	"github.com/dws-org/dws-event-service/internal/controllers/events"
+	"github.com/dws-org/dws-event-service/internal/controllers/health"
+	"github.com/dws-org/dws-event-service/internal/middlewares"
+	"github.com/dws-org/dws-event-service/internal/pkg/logger"
 
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"

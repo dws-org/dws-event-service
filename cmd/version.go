@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"github.com/oskargbc/dws-event-service.git/configs"
+	"github.com/dws-org/dws-event-service/configs"
 	"fmt"
 
 	"github.com/spf13/cobra"

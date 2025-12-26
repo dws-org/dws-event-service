@@ -1,8 +1,8 @@
 package health
 
 import (
-	"github.com/oskargbc/dws-event-service.git/configs"
-	"github.com/oskargbc/dws-event-service.git/internal/services"
+	"github.com/dws-org/dws-event-service/configs"
+	"github.com/dws-org/dws-event-service/internal/services"
 	"context"
 	"net/http"
 	"time"

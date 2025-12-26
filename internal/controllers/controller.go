@@ -1,6 +1,6 @@
 package controllers
 
-import "github.com/oskargbc/dws-event-service.git/internal/services"
+import "github.com/dws-org/dws-event-service/internal/services"
 
 func GetDatabaseSeviceInstance() *services.DatabaseService {
 	return services.GetDatabaseSeviceInstance()

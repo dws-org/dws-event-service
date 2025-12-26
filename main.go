@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/oskargbc/dws-event-service.git/cmd"
+	"github.com/dws-org/dws-event-service/cmd"
 	"embed"
 )
 

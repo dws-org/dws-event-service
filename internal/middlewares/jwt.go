@@ -1,7 +1,7 @@
 package middlewares
 
 import (
-	"github.com/oskargbc/dws-event-service.git/internal/pkg/utils"
+	"github.com/dws-org/dws-event-service/internal/pkg/utils"
 	"net/http"
 	"strings"
 

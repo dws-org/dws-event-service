@@ -5,8 +5,8 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/oskargbc/dws-event-service.git/internal/services"
-	"github.com/oskargbc/dws-event-service.git/prisma/db"
+	"github.com/dws-org/dws-event-service/internal/services"
+	"github.com/dws-org/dws-event-service/prisma/db"
 	"github.com/shopspring/decimal"
 )
 

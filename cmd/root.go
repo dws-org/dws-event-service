@@ -6,7 +6,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/oskargbc/dws-event-service.git/configs"
+	"github.com/dws-org/dws-event-service/configs"
 
 	"github.com/spf13/cobra"
 )

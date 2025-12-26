@@ -6,9 +6,9 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/oskargbc/dws-event-service.git/configs"
-	"github.com/oskargbc/dws-event-service.git/internal/pkg/logger"
-	"github.com/oskargbc/dws-event-service.git/prisma/db"
+	"github.com/dws-org/dws-event-service/configs"
+	"github.com/dws-org/dws-event-service/internal/pkg/logger"
+	"github.com/dws-org/dws-event-service/prisma/db"
 
 	"github.com/sirupsen/logrus"
 )

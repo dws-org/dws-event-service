@@ -7,8 +7,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/oskargbc/dws-event-service.git/configs"
-	"github.com/oskargbc/dws-event-service.git/internal/pkg/supabase"
+	"github.com/dws-org/dws-event-service/configs"
+	"github.com/dws-org/dws-event-service/internal/pkg/supabase"
 
 	"github.com/gin-gonic/gin"
 )

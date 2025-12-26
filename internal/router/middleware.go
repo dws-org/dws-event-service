@@ -1,7 +1,7 @@
 package router
 
 import (
-	"github.com/oskargbc/dws-event-service.git/internal/middlewares"
+	"github.com/dws-org/dws-event-service/internal/middlewares"
 
 	"github.com/gin-gonic/gin"
 )

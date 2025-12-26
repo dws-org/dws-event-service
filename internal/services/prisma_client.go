@@ -3,7 +3,7 @@ package services
 import (
 	"context"
 
-	"github.com/oskargbc/dws-event-service.git/prisma/db"
+	"github.com/dws-org/dws-event-service/prisma/db"
 )
 
 type PrismaClient struct {
