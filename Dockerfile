@@ -1,25 +1,34 @@
-# Wir starten mit einem Go‑Basisimage
-FROM golang:1.23.1
+# Build stage
+FROM golang:1.23.1 AS builder
 
-# Benötigt, damit "make" auf dem Image vorhanden ist
-RUN apt-get update && apt-get install -y make
-
-# Arbeitsverzeichnis im Container
 WORKDIR /app
 
-# Den gesamten Quellcode in das Arbeitsverzeichnis kopieren
-COPY . /app
+# Copy go mod files first for better caching
+COPY go.mod go.sum ./
+RUN go mod download
 
+# Copy source code
+COPY . .
 
-# Prisma-Client generieren (falls in Ihrem Projekt benötigt)
+# Generate Prisma client
 RUN go run github.com/steebchen/prisma-client-go generate
 
+# Build the binary
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main .
 
+# Runtime stage
+FROM alpine:latest
 
+RUN apk --no-cache add ca-certificates
 
+WORKDIR /root/
 
-# Port freigeben – wählen Sie den Port, auf dem Ihr Server läuft
+# Copy the binary from builder
+COPY --from=builder /app/main .
+COPY --from=builder /app/configs ./configs
+
+# Port freigeben
 EXPOSE 6906
 
-# Standardbefehl: Server starten
-CMD ["go", "run", "main.go"]
+# Run the binary
+CMD ["./main"]
