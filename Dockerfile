@@ -7,8 +7,14 @@ WORKDIR /app
 COPY go.mod go.sum ./
 RUN go mod download
 
+# Install swag for generating swagger docs
+RUN go install github.com/swaggo/swag/cmd/swag@latest
+
 # Copy source code
 COPY . .
+
+# Generate Swagger docs
+RUN swag init -g cmd/root.go --output ./docs
 
 # Generate Prisma client
 RUN go run github.com/steebchen/prisma-client-go generate
