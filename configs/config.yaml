@@ -42,7 +42,7 @@ keycloak:
 # RabbitMQ configuration
 rabbitmq:
   # Enable/disable RabbitMQ integration
-  enabled: true
+  enabled: false
   
   # RabbitMQ server host (use 'localhost' when port-forwarding)
   host: "localhost"
