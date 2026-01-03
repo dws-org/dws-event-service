@@ -22,16 +22,18 @@ RUN go run github.com/steebchen/prisma-client-go generate
 # Build the binary
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main .
 
-# Runtime stage
-FROM alpine:latest
+# Runtime stage - use Debian-based image for Prisma compatibility
+FROM debian:bookworm-slim
 
-RUN apk --no-cache add ca-certificates
+RUN apt-get update && apt-get install -y ca-certificates openssl && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /root/
 
 # Copy the binary from builder
 COPY --from=builder /app/main .
 COPY --from=builder /app/configs ./configs
+# Copy Prisma binaries
+COPY --from=builder /tmp/prisma /tmp/prisma
 
 # Port freigeben
 EXPOSE 6906
