@@ -8,9 +8,6 @@ import (
 
 // TestGetDatabaseServiceInstance tests singleton pattern
 func TestGetDatabaseServiceInstance(t *testing.T) {
-	// Skip if no real DATABASE_URL - requires PostgreSQL connection
-	t.Skip("Skipping database test - requires actual PostgreSQL connection")
-	
 	instance1 := GetDatabaseSeviceInstance()
 	instance2 := GetDatabaseSeviceInstance()
 
@@ -21,9 +18,6 @@ func TestGetDatabaseServiceInstance(t *testing.T) {
 
 // TestGetClient tests database client retrieval
 func TestGetClient(t *testing.T) {
-	// Skip if no real DATABASE_URL - requires PostgreSQL connection
-	t.Skip("Skipping database test - requires actual PostgreSQL connection")
-	
 	service := GetDatabaseSeviceInstance()
 	client := service.GetClient()
 

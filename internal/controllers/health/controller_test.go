@@ -29,9 +29,6 @@ func TestLive(t *testing.T) {
 
 // TestReady tests the readiness probe endpoint
 func TestReady(t *testing.T) {
-	// Skip - requires real database connection
-	t.Skip("Skipping readiness test - requires actual PostgreSQL connection")
-	
 	router := gin.New()
 	controller := NewController()
 	router.GET("/readyz", controller.Ready)

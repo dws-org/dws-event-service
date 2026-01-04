@@ -14,6 +14,22 @@ jobs:
   test:
     name: Run Tests & Coverage
     runs-on: ubuntu-latest
+    
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: testuser
+          POSTGRES_PASSWORD: testpass
+          POSTGRES_DB: testdb
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+    
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -36,6 +52,11 @@ jobs:
 
       - name: Generate Prisma client
         run: go run github.com/steebchen/prisma-client-go generate
+        env:
+          DATABASE_URL: "postgresql://testuser:testpass@localhost:5432/testdb?sslmode=disable"
+
+      - name: Push Prisma schema to database
+        run: go run github.com/steebchen/prisma-client-go db push --accept-data-loss
         env:
           DATABASE_URL: "postgresql://testuser:testpass@localhost:5432/testdb?sslmode=disable"
 

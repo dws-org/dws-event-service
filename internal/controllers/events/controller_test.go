@@ -19,9 +19,6 @@ gin.SetMode(gin.TestMode)
 
 // TestGetEvents_Success tests successful retrieval of events
 func TestGetEvents_Success(t *testing.T) {
-	// Skip - requires real database connection
-	t.Skip("Skipping events test - requires actual PostgreSQL connection")
-	
 	// Setup
 	router := gin.New()
 	controller := NewController()
@@ -43,9 +40,6 @@ func TestGetEvents_Success(t *testing.T) {
 // TestGetEventByID_NotFound tests 404 error when event doesn't exist
 // REQ7: Failure test case #1 - 404 Not Found
 func TestGetEventByID_NotFound(t *testing.T) {
-	// Skip - requires real database connection
-	t.Skip("Skipping events test - requires actual PostgreSQL connection")
-	
 	// Setup
 	router := gin.New()
 	controller := NewController()
@@ -68,9 +62,6 @@ assert.Contains(t, response, "error", "Response should contain error message")
 // TestCreateEvent_BadRequest tests 400 error with invalid payload
 // REQ7: Failure test case #2 - 400 Bad Request (missing required fields)
 func TestCreateEvent_BadRequest_MissingFields(t *testing.T) {
-	// Skip - requires real database connection
-	t.Skip("Skipping events test - requires actual PostgreSQL connection")
-	
 	// Setup
 	router := gin.New()
 	controller := NewController()
@@ -101,9 +92,6 @@ assert.Equal(t, "Invalid request payload", response["error"], "Error message sho
 // TestCreateEvent_BadRequest_InvalidJSON tests 400 error with malformed JSON
 // REQ7: Failure test case #3 - 400 Bad Request (invalid JSON)
 func TestCreateEvent_BadRequest_InvalidJSON(t *testing.T) {
-	// Skip - requires real database connection
-	t.Skip("Skipping events test - requires actual PostgreSQL connection")
-	
 	// Setup
 	router := gin.New()
 	controller := NewController()
@@ -129,9 +117,6 @@ assert.Contains(t, response, "error", "Response should contain error message")
 // TestCreateEvent_BadRequest_InvalidDataTypes tests 400 error with wrong data types
 // REQ7: Failure test case #4 - 400 Bad Request (invalid data types)
 func TestCreateEvent_BadRequest_InvalidDataTypes(t *testing.T) {
-	// Skip - requires real database connection
-	t.Skip("Skipping events test - requires actual PostgreSQL connection")
-	
 	// Setup
 	router := gin.New()
 	controller := NewController()
@@ -223,9 +208,6 @@ assert.NotEmpty(t, tt.request.Name, "Name should not be empty for valid case")
 
 // TestNewController tests controller initialization
 func TestNewController(t *testing.T) {
-	// Skip - requires real database connection
-	t.Skip("Skipping events test - requires actual PostgreSQL connection")
-	
 	controller := NewController()
 	assert.NotNil(t, controller, "Controller should not be nil")
 	assert.NotNil(t, controller.dbService, "Database service should be initialized")
