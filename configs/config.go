@@ -37,6 +37,10 @@ func LoadConfig() *Config {
 	viper.SetConfigType("yaml")
 
 	viper.AddConfigPath(path + "/configs") // path to look for the config file in
+	viper.AddConfigPath("./configs")       // relative to current directory
+	viper.AddConfigPath("../configs")      // one level up
+	viper.AddConfigPath("../../configs")   // two levels up (for tests in internal/)
+	viper.AddConfigPath("../../../configs") // three levels up (for deeply nested tests)
 
 	if err := viper.ReadInConfig(); err != nil { // Handle errors reading the config file
 		panic(fmt.Errorf("fatal error config file: %w", err))

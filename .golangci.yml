@@ -1,0 +1,56 @@
+run:
+  timeout: 5m
+  tests: true
+  
+linters:
+  enable:
+    - errcheck
+    - gosimple
+    - govet
+    - ineffassign
+    - staticcheck
+    - unused
+  disable:
+    - typecheck  # Disabled because Prisma generated code can cause issues
+
+linters-settings:
+  errcheck:
+    check-blank: false
+    check-type-assertions: false
+    # Ignore error checks in specific functions/methods
+    exclude-functions:
+      - (github.com/rabbitmq/amqp091-go.Delivery).Ack
+      - (github.com/rabbitmq/amqp091-go.Delivery).Nack
+
+issues:
+  exclude-rules:
+    # Exclude lint issues in test files
+    - path: _test\.go
+      linters:
+        - errcheck
+        - gosimple
+        - govet
+        - unused
+    
+    # Exclude specific lint rules for generated code
+    - path: prisma/
+      linters:
+        - all
+    
+    # Exclude specific lint rules for docs (swagger generated)
+    - path: docs/
+      linters:
+        - all
+    
+    # Allow unused code in cmd/ as cobra commands may have unused vars
+    - path: cmd/
+      linters:
+        - unused
+  
+  # Maximum count of issues with the same text. Set to 0 to disable.
+  max-same-issues: 0
+  
+  # Don't fail on specific issues
+  exclude:
+    - "var `embedFs` is unused"
+    - "func `.*fetchPublicKey` is unused"
