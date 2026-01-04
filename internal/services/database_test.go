@@ -18,19 +18,9 @@ assert.Equal(t, instance1, instance2, "Both instances should be the same (single
 
 // TestGetClient tests database client retrieval
 func TestGetClient(t *testing.T) {
-service := GetDatabaseSeviceInstance()
-client := service.GetClient()
+	service := GetDatabaseSeviceInstance()
+	client := service.GetClient()
 
-// Client can be nil if not connected, which is okay in tests
-// We're just testing that the method doesn't panic
-_ = client
-}
-
-// TestIsConnected tests connection status check
-func TestIsConnected(t *testing.T) {
-service := GetDatabaseSeviceInstance()
-isConnected := service.IsConnected()
-
-// Should return a boolean without panicking
-assert.IsType(t, false, isConnected, "Should return boolean")
+	// Client should not be nil once service is instantiated
+	assert.NotNil(t, client, "Client should be initialized")
 }

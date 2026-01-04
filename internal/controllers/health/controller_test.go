@@ -57,7 +57,7 @@ assert.Contains(t, w.Body.String(), "service")
 
 // TestNewController tests controller initialization
 func TestNewController(t *testing.T) {
-controller := NewController()
-assert.NotNil(t, controller)
-assert.NotNil(t, controller.dbService)
+	controller := NewController()
+	assert.NotNil(t, controller)
+	assert.NotNil(t, controller.service)
 }
