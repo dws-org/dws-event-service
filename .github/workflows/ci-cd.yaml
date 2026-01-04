@@ -60,11 +60,6 @@ jobs:
         env:
           DATABASE_URL: "postgresql://testuser:testpass@localhost:5432/testdb?sslmode=disable"
 
-      - name: Run unit tests
-        run: go test ./internal/controllers/... ./internal/middlewares/... ./internal/services/... -v -p 1 -timeout 5m
-        env:
-          DATABASE_URL: "postgresql://testuser:testpass@localhost:5432/testdb?sslmode=disable"
-
       - name: Run tests with coverage
         run: |
           go test ./internal/controllers/... ./internal/middlewares/... ./internal/services/... \
