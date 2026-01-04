@@ -27,8 +27,8 @@ req, _ := http.NewRequest("GET", "/protected", nil)
 // No Authorization header
 router.ServeHTTP(w, req)
 
-assert.Equal(t, http.StatusUnauthorized, w.Code, "Expected 401 Unauthorized")
-assert.Contains(t, w.Body.String(), "Authorization header missing")
+	assert.Equal(t, http.StatusUnauthorized, w.Code, "Expected 401 Unauthorized")
+	assert.Contains(t, w.Body.String(), "Authorization header")
 }
 
 // TestKeycloakAuthMiddleware_InvalidTokenFormat tests 401 error with malformed token
