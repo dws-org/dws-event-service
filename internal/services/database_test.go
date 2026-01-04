@@ -1,10 +1,24 @@
 package services
 
 import (
-"testing"
+	"os"
+	"testing"
 
-"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/assert"
 )
+
+func TestMain(m *testing.M) {
+	// Run tests
+	code := m.Run()
+	
+	// Clean up: disconnect database if instance exists
+	if databaseInstance != nil {
+		databaseInstance.DbDisconnect()
+	}
+	
+	// Exit with test result code
+	os.Exit(code)
+}
 
 // TestGetDatabaseServiceInstance tests singleton pattern
 func TestGetDatabaseServiceInstance(t *testing.T) {
