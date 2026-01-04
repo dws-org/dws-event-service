@@ -53,36 +53,20 @@ func (d *DatabaseService) DbDisconnect() {
 	}
 }
 
-// EnsureConnected ensures the Prisma client is connected, reconnecting if necessary
+// EnsureConnected checks if client is initialized
+// NOTE: This should ONLY be used by health checks, NOT by regular requests!
+// Calling Connect() multiple times creates connection leaks in Prisma
 func (d *DatabaseService) EnsureConnected(ctx context.Context) error {
 	if d.client == nil {
 		return errors.New("prisma client is not initialized")
 	}
-
-	// Try to reconnect - Prisma Go client's Connect() can be called multiple times
-	// If already connected, it will return an error, but we can ignore it
-	// If not connected or connection was lost, it will reconnect
-	if err := d.client.Prisma.Connect(); err != nil {
-		// Check if error indicates already connected (this is fine)
-		errStr := err.Error()
-		if !strings.Contains(errStr, "already") && !strings.Contains(errStr, "connected") {
-			d.logger.Errorf("failed to ensure database connection: %v", err)
-			return err
-		}
-		// If already connected, that's fine - continue
-		d.logger.Debugln("database connection already established")
-	}
-
 	return nil
 }
 
-// GetClient returns the Prisma client instance, ensuring it's connected first
+// GetClient returns the Prisma client instance
+// NOTE: Connection is established once at startup via dbConnect()
+// Do NOT call Connect() here as it creates connection leaks!
 func (d *DatabaseService) GetClient() *db.PrismaClient {
-	// Ensure connection is active before returning client
-	ctx := context.Background()
-	if err := d.EnsureConnected(ctx); err != nil {
-		d.logger.Warnf("warning: database connection check failed: %v", err)
-	}
 	return d.client
 }
 
