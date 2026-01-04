@@ -37,12 +37,12 @@ jobs:
       - name: Generate Prisma client
         run: go run github.com/steebchen/prisma-client-go generate
         env:
-          DATABASE_URL: "file:./test.db"
+          DATABASE_URL: "postgresql://testuser:testpass@localhost:5432/testdb?sslmode=disable"
 
       - name: Run unit tests
         run: go test ./internal/controllers/... ./internal/middlewares/... ./internal/services/... -v -race -timeout 5m
         env:
-          DATABASE_URL: "file:./test.db"
+          DATABASE_URL: "postgresql://testuser:testpass@localhost:5432/testdb?sslmode=disable"
 
       - name: Run tests with coverage
         run: |
@@ -51,7 +51,7 @@ jobs:
             -covermode=atomic \
             -timeout 5m
         env:
-          DATABASE_URL: "file:./test.db"
+          DATABASE_URL: "postgresql://testuser:testpass@localhost:5432/testdb?sslmode=disable"
 
       - name: Calculate coverage
         id: coverage

@@ -41,7 +41,7 @@ func (s *SupabaseClient) VerifyJWT(tokenString string) (string, error) {
 
 	token, _, err := new(jwt.Parser).ParseUnverified(tokenString, jwt.MapClaims{})
 	if err != nil {
-		return "", errors.New(fmt.Sprintf("failed to parse token: %w", err))
+		return "", fmt.Errorf("failed to parse token: %w", err)
 	}
 
 	claims, ok := token.Claims.(jwt.MapClaims)
