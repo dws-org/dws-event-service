@@ -11,7 +11,92 @@ env:
   IMAGE_NAME: dws-org/dws-event-service
 
 jobs:
+  test:
+    name: Run Tests & Coverage
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.23'
+
+      - name: Cache Go modules
+        uses: actions/cache@v4
+        with:
+          path: ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
+
+      - name: Download dependencies
+        run: go mod download
+
+      - name: Run unit tests
+        run: go test ./internal/controllers/... ./internal/middlewares/... ./internal/services/... -v -race -timeout 5m
+
+      - name: Run tests with coverage
+        run: |
+          go test ./internal/controllers/... ./internal/middlewares/... ./internal/services/... \
+            -coverprofile=coverage.out \
+            -covermode=atomic \
+            -timeout 5m
+
+      - name: Calculate coverage
+        id: coverage
+        run: |
+          COVERAGE=$(go tool cover -func=coverage.out | grep total | awk '{print $3}' | sed 's/%//')
+          echo "coverage=$COVERAGE" >> $GITHUB_OUTPUT
+          echo "Total Coverage: $COVERAGE%"
+          
+          # Check if coverage meets minimum requirement (50%)
+          if (( $(echo "$COVERAGE < 50" | bc -l) )); then
+            echo "❌ Coverage $COVERAGE% is below 50% requirement"
+            exit 1
+          else
+            echo "✅ Coverage $COVERAGE% meets 50% requirement"
+          fi
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          file: ./coverage.out
+          flags: unittests
+          name: codecov-dws-event-service
+          fail_ci_if_error: false
+
+      - name: Generate coverage report
+        run: go tool cover -html=coverage.out -o coverage.html
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage.html
+
+  lint:
+    name: Lint Code
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.23'
+
+      - name: Run golangci-lint
+        uses: golangci/golangci-lint-action@v6
+        with:
+          version: latest
+          args: --timeout=5m
+
   build-and-push:
+    name: Build & Push Docker Image
+    needs: [test, lint]
     runs-on: ubuntu-latest
     permissions:
       contents: read
