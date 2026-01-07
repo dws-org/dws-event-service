@@ -1,0 +1,428 @@
+openapi: 3.0.3
+info:
+  title: DWS Event Service API
+  description: |
+    Event management microservice for the Dynamic Web Systems platform.
+    
+    This service handles:
+    - Event listing and details
+    - Event creation (organizers only)
+    - Integration with Keycloak for authentication
+    
+    ## Authentication
+    All `/api/v1/*` endpoints require Bearer token authentication via Keycloak.
+    
+    ```
+    Authorization: Bearer <your_jwt_token>
+    ```
+    
+    ## Authorization
+    - **GET** endpoints: All authenticated users
+    - **POST** endpoints: Users with `Organiser` realm role only
+    
+  version: 1.0.0
+  contact:
+    name: DWS Development Team
+    url: https://github.com/dws-org/dws-event-service
+
+servers:
+  - url: https://event.ltu-m7011e-6.se/api/v1
+    description: Production server
+  - url: http://localhost:8080/api/v1
+    description: Local development server
+
+tags:
+  - name: events
+    description: Event management operations
+  - name: health
+    description: Health check endpoints
+
+paths:
+  /events:
+    get:
+      tags:
+        - events
+      summary: List all events
+      description: Returns a list of all events in the system
+      operationId: getEvents
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Event'
+              example:
+                - id: "evt-001"
+                  name: "Rock Festival 2026"
+                  description: "Annual rock music festival"
+                  startDate: "2026-06-15T00:00:00Z"
+                  startTime: "2026-06-15T18:00:00Z"
+                  endDate: "2026-06-17T00:00:00Z"
+                  location: "Stockholm Arena"
+                  capacity: 5000
+                  price: 599.00
+                  imageUrl: "https://example.com/festival.jpg"
+                  category: "Music"
+                  organizerId: "org-123"
+                  createdAt: "2026-01-01T10:00:00Z"
+                  updatedAt: "2026-01-01T10:00:00Z"
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+    post:
+      tags:
+        - events
+      summary: Create a new event
+      description: Creates a new event. Requires Organiser role.
+      operationId: createEvent
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateEventRequest'
+            example:
+              name: "Jazz Night"
+              description: "Evening of smooth jazz"
+              startDate: "2026-08-20T00:00:00Z"
+              startTime: "2026-08-20T19:00:00Z"
+              endDate: "2026-08-20T00:00:00Z"
+              location: "Blue Note Club"
+              capacity: 200
+              price: 299.00
+              imageUrl: "https://example.com/jazz.jpg"
+              category: "Music"
+              organizerId: "org-456"
+      responses:
+        '201':
+          description: Event created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /events/{id}:
+    get:
+      tags:
+        - events
+      summary: Get event by ID
+      description: Returns a single event by its unique identifier
+      operationId: getEventById
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: Event ID
+          required: true
+          schema:
+            type: string
+          example: "evt-001"
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /livez:
+    get:
+      tags:
+        - health
+      summary: Liveness probe
+      description: Kubernetes liveness probe endpoint
+      operationId: liveness
+      responses:
+        '200':
+          description: Service is alive
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "alive"
+
+  /readyz:
+    get:
+      tags:
+        - health
+      summary: Readiness probe
+      description: Kubernetes readiness probe endpoint
+      operationId: readiness
+      responses:
+        '200':
+          description: Service is ready
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "ready"
+        '503':
+          description: Service is not ready
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "not ready"
+                  error:
+                    type: string
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: |
+        JWT token from Keycloak authentication.
+        Obtain token from: https://keycloak.ltu-m7011e-6.se/realms/dws-org
+
+  schemas:
+    Event:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique event identifier
+          example: "evt-001"
+        name:
+          type: string
+          description: Event name
+          example: "Rock Festival 2026"
+        description:
+          type: string
+          description: Detailed event description
+          example: "Annual rock music festival featuring top bands"
+        startDate:
+          type: string
+          format: date-time
+          description: Event start date
+          example: "2026-06-15T00:00:00Z"
+        startTime:
+          type: string
+          format: date-time
+          description: Event start time
+          example: "2026-06-15T18:00:00Z"
+        endDate:
+          type: string
+          format: date-time
+          description: Event end date
+          example: "2026-06-17T00:00:00Z"
+        location:
+          type: string
+          description: Event location/venue
+          example: "Stockholm Arena"
+        capacity:
+          type: integer
+          description: Maximum number of attendees
+          example: 5000
+        price:
+          type: number
+          format: decimal
+          description: Ticket price
+          example: 599.00
+        imageUrl:
+          type: string
+          format: uri
+          description: Event image URL
+          example: "https://example.com/festival.jpg"
+        category:
+          type: string
+          description: Event category
+          example: "Music"
+        organizerId:
+          type: string
+          description: ID of the event organizer
+          example: "org-123"
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when event was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when event was last updated
+      required:
+        - id
+        - name
+        - description
+        - startDate
+        - startTime
+        - endDate
+        - location
+        - capacity
+        - price
+        - imageUrl
+        - category
+        - organizerId
+
+    CreateEventRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Event name
+          example: "Jazz Night"
+        description:
+          type: string
+          description: Detailed event description
+          example: "Evening of smooth jazz"
+        startDate:
+          type: string
+          format: date-time
+          description: Event start date
+          example: "2026-08-20T00:00:00Z"
+        startTime:
+          type: string
+          format: date-time
+          description: Event start time
+          example: "2026-08-20T19:00:00Z"
+        endDate:
+          type: string
+          format: date-time
+          description: Event end date
+          example: "2026-08-20T00:00:00Z"
+        location:
+          type: string
+          description: Event location/venue
+          example: "Blue Note Club"
+        capacity:
+          type: integer
+          description: Maximum number of attendees
+          minimum: 1
+          example: 200
+        price:
+          type: number
+          format: decimal
+          description: Ticket price
+          minimum: 0
+          example: 299.00
+        imageUrl:
+          type: string
+          format: uri
+          description: Event image URL
+          example: "https://example.com/jazz.jpg"
+        category:
+          type: string
+          description: Event category
+          example: "Music"
+        organizerId:
+          type: string
+          description: ID of the event organizer
+          example: "org-456"
+      required:
+        - name
+        - description
+        - startDate
+        - startTime
+        - endDate
+        - location
+        - capacity
+        - price
+        - imageUrl
+        - category
+        - organizerId
+
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Error type/code
+          example: "not_found"
+        message:
+          type: string
+          description: Human-readable error message
+          example: "Event not found"
+        details:
+          type: string
+          description: Additional error details
+          example: "No event exists with ID: evt-999"
+
+  responses:
+    BadRequest:
+      description: Bad request - invalid input
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: "invalid_request"
+            message: "Invalid request payload"
+            details: "Field 'name' is required"
+
+    Unauthorized:
+      description: Unauthorized - missing or invalid token
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: "unauthorized"
+            message: "Authentication required"
+            details: "Missing or invalid Bearer token"
+
+    Forbidden:
+      description: Forbidden - insufficient permissions
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: "forbidden"
+            message: "Insufficient permissions"
+            details: "Requires 'Organiser' role"
+
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: "not_found"
+            message: "Event not found"
+            details: "No event exists with the provided ID"
+
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: "internal_error"
+            message: "Failed to fetch events"
+            details: "Database connection error"
