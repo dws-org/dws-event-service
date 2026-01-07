@@ -7,8 +7,10 @@ import (
 	rabbitmqController "github.com/oskargbc/dws-event-service.git/internal/controllers/rabbitmq"
 	"github.com/oskargbc/dws-event-service.git/internal/middlewares"
 	"github.com/oskargbc/dws-event-service.git/internal/pkg/logger"
+	"github.com/oskargbc/dws-event-service.git/internal/pkg/metrics"
 
 	"github.com/gin-gonic/gin"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
@@ -23,6 +25,9 @@ func NewGinRouter(mode string) *gin.Engine {
 	gin.DefaultWriter = logger.NewLogrusLogger().Writer()
 
 	router := gin.Default()
+
+	// Add Prometheus middleware
+	router.Use(metrics.PrometheusMiddleware("dws-event-service"))
 
 	router.Use(func(c *gin.Context) {
 		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
@@ -39,6 +44,9 @@ func NewGinRouter(mode string) *gin.Engine {
 	})
 
 	router.Use(middlewares.ErrorHandle())
+
+	// Prometheus metrics endpoint (no auth required)
+	router.GET("/metrics", gin.WrapH(promhttp.Handler()))
 
 	healthController := health.NewController()
 	router.GET("/livez", healthController.Live)
