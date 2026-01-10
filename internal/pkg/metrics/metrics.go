@@ -1,6 +1,7 @@
 package metrics
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -71,7 +72,7 @@ func PrometheusMiddleware(serviceName string) gin.HandlerFunc {
 		RequestsTotal.WithLabelValues(
 			c.Request.Method,
 			c.FullPath(),
-			string(rune(status)),
+			fmt.Sprintf("%d", status),
 			serviceName,
 		).Inc()
 
