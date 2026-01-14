@@ -1,0 +1,61 @@
+service:
+  name: "event-service"
+  slug: "event-service"
+  description: "event-service microservice API"
+  version: "0.1.0"
+  tags:
+    - "template"
+    - "go"
+
+server:
+  host: "localhost"
+  port: ":6906"
+  gin_mode: "debug" # debug, release, test
+
+jwt:
+  secret: "change-me"
+
+supabase:
+  url: "https://your-project.supabase.co"
+  anon_key: "your-anon-key-here"
+
+# Keycloak configuration used by the Keycloak auth middleware.
+# Replace these placeholder values with your actual Keycloak settings.
+keycloak:
+  # Typically: "https://<keycloak-host>/realms/<realm-name>"
+  issuer_url: "https://keycloak.ltu-m7011e-6.se/realms/dws-org"
+
+  # Usually the client-id of the application that this service trusts.
+  audience: "dws-frontend"
+
+  # RSA public key for the realm in PEM format. Example:
+  # -----BEGIN PUBLIC KEY-----
+  # MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8A...
+  # -----END PUBLIC KEY-----
+  public_key_pem: ""
+
+  # Skip TLS certificate verification when fetching JWKS from Keycloak.
+  # Set to true for development/testing with self-signed certificates.
+  # WARNING: Only use this in development, never in production!
+  skip_tls_verify: true
+
+# RabbitMQ configuration
+rabbitmq:
+  # Enable/disable RabbitMQ integration
+  enabled: false
+  
+  # RabbitMQ server host (use 'localhost' when port-forwarding)
+  host: "localhost"
+  
+  # AMQP port (default: 5672)
+  port: "5672"
+  
+  # Management UI port (default: 15672)
+  management_port: "15672"
+  
+  # RabbitMQ credentials
+  username: "admin"
+  password: "admin"
+  
+  # Virtual host (default: "/")
+  virtual_host: "/"
