@@ -1,0 +1,40 @@
+{"level":"trace","msg":"Trace message","time":"2026-01-14T23:40:18+01:00"}
+{"level":"debug","msg":"Debug message","time":"2026-01-14T23:40:18+01:00"}
+{"level":"info","msg":"Info message","time":"2026-01-14T23:40:18+01:00"}
+{"level":"warning","msg":"Warning message","time":"2026-01-14T23:40:18+01:00"}
+{"level":"error","msg":"Error message","time":"2026-01-14T23:40:18+01:00"}
+{"level":"info","msg":"Formatted message: test 123","time":"2026-01-14T23:40:18+01:00"}
+{"level":"warning","msg":"Warning with value: map[count:5]","time":"2026-01-14T23:40:18+01:00"}
+{"level":"error","msg":"Error code: 500","time":"2026-01-14T23:40:18+01:00"}
+{"level":"info","msg":"User logged in","time":"2026-01-14T23:40:18+01:00","user_id":"123"}
+{"level":"info","method":"POST","msg":"HTTP request","path":"/api/events","status":201,"time":"2026-01-14T23:40:18+01:00"}
+{"level":"trace","msg":"Trace message","time":"2026-01-14T23:40:42+01:00"}
+{"level":"debug","msg":"Debug message","time":"2026-01-14T23:40:42+01:00"}
+{"level":"info","msg":"Info message","time":"2026-01-14T23:40:42+01:00"}
+{"level":"warning","msg":"Warning message","time":"2026-01-14T23:40:42+01:00"}
+{"level":"error","msg":"Error message","time":"2026-01-14T23:40:42+01:00"}
+{"level":"info","msg":"Formatted message: test 123","time":"2026-01-14T23:40:42+01:00"}
+{"level":"warning","msg":"Warning with value: map[count:5]","time":"2026-01-14T23:40:42+01:00"}
+{"level":"error","msg":"Error code: 500","time":"2026-01-14T23:40:42+01:00"}
+{"level":"info","msg":"User logged in","time":"2026-01-14T23:40:42+01:00","user_id":"123"}
+{"level":"info","method":"POST","msg":"HTTP request","path":"/api/events","status":201,"time":"2026-01-14T23:40:42+01:00"}
+{"level":"trace","msg":"Trace message","time":"2026-01-14T23:41:22+01:00"}
+{"level":"debug","msg":"Debug message","time":"2026-01-14T23:41:22+01:00"}
+{"level":"info","msg":"Info message","time":"2026-01-14T23:41:22+01:00"}
+{"level":"warning","msg":"Warning message","time":"2026-01-14T23:41:22+01:00"}
+{"level":"error","msg":"Error message","time":"2026-01-14T23:41:22+01:00"}
+{"level":"info","msg":"Formatted message: test 123","time":"2026-01-14T23:41:22+01:00"}
+{"level":"warning","msg":"Warning with value: map[count:5]","time":"2026-01-14T23:41:22+01:00"}
+{"level":"error","msg":"Error code: 500","time":"2026-01-14T23:41:22+01:00"}
+{"level":"info","msg":"User logged in","time":"2026-01-14T23:41:22+01:00","user_id":"123"}
+{"level":"info","method":"POST","msg":"HTTP request","path":"/api/events","status":201,"time":"2026-01-14T23:41:22+01:00"}
+{"level":"trace","msg":"Trace message","time":"2026-01-14T23:41:40+01:00"}
+{"level":"debug","msg":"Debug message","time":"2026-01-14T23:41:40+01:00"}
+{"level":"info","msg":"Info message","time":"2026-01-14T23:41:40+01:00"}
+{"level":"warning","msg":"Warning message","time":"2026-01-14T23:41:40+01:00"}
+{"level":"error","msg":"Error message","time":"2026-01-14T23:41:40+01:00"}
+{"level":"info","msg":"Formatted message: test 123","time":"2026-01-14T23:41:40+01:00"}
+{"level":"warning","msg":"Warning with value: map[count:5]","time":"2026-01-14T23:41:40+01:00"}
+{"level":"error","msg":"Error code: 500","time":"2026-01-14T23:41:40+01:00"}
+{"level":"info","msg":"User logged in","time":"2026-01-14T23:41:40+01:00","user_id":"123"}
+{"level":"info","method":"POST","msg":"HTTP request","path":"/api/events","status":201,"time":"2026-01-14T23:41:40+01:00"}
