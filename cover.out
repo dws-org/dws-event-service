@@ -1,0 +1,15 @@
+mode: set
+github.com/oskargbc/dws-event-service.git/internal/controllers/health/controller.go:22.34,28.2 2 0
+github.com/oskargbc/dws-event-service.git/internal/controllers/health/controller.go:32.44,39.2 1 1
+github.com/oskargbc/dws-event-service.git/internal/controllers/health/controller.go:43.45,52.73 6 0
+github.com/oskargbc/dws-event-service.git/internal/controllers/health/controller.go:52.73,53.52 1 0
+github.com/oskargbc/dws-event-service.git/internal/controllers/health/controller.go:53.52,66.4 2 0
+github.com/oskargbc/dws-event-service.git/internal/controllers/health/controller.go:67.3,67.18 1 0
+github.com/oskargbc/dws-event-service.git/internal/controllers/health/controller.go:69.2,72.32 2 0
+github.com/oskargbc/dws-event-service.git/internal/controllers/health/controller.go:72.32,74.87 2 0
+github.com/oskargbc/dws-event-service.git/internal/controllers/health/controller.go:74.87,75.59 1 0
+github.com/oskargbc/dws-event-service.git/internal/controllers/health/controller.go:75.59,88.5 2 0
+github.com/oskargbc/dws-event-service.git/internal/controllers/health/controller.go:89.4,89.25 1 0
+github.com/oskargbc/dws-event-service.git/internal/controllers/health/controller.go:91.3,91.55 1 0
+github.com/oskargbc/dws-event-service.git/internal/controllers/health/controller.go:94.2,100.4 1 0
+github.com/oskargbc/dws-event-service.git/internal/controllers/health/controller.go:104.44,114.2 1 1

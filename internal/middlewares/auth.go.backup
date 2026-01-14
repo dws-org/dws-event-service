@@ -2,8 +2,13 @@ package middlewares
 
 import (
 	"context"
+	"fmt"
 	"net/http"
+	"os"
 	"strings"
+
+	"github.com/oskargbc/dws-event-service.git/configs"
+	"github.com/oskargbc/dws-event-service.git/internal/pkg/supabase"
 
 	"github.com/gin-gonic/gin"
 )
@@ -16,14 +21,19 @@ const (
 	UserRolesKey UserContextKey = "user_roles"
 )
 
-// AuthMiddleware - LEGACY: Supabase wurde entfernt
-// Nutze KeycloakAuthMiddleware() für Produktion
-// Diese Middleware prüft nur das Token-Format (für Tests nützlich)
+// AuthMiddleware extracts user ID from Supabase JWT token and stores it in context
+// Debugs headers, token, and Supabase response
 func AuthMiddleware() gin.HandlerFunc {
+	config := configs.GetEnvConfig()
+	supabaseClient := supabase.NewSupabaseClient(config)
+
 	return func(c *gin.Context) {
+		// Debug: Print all headers
+
 		tokenStr := c.GetHeader("Authorization")
 
 		if tokenStr == "" {
+			fmt.Fprintln(os.Stderr, "No Authorization header found")
 			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
 				"code":    http.StatusUnauthorized,
 				"message": "Authorization header required",
@@ -33,6 +43,7 @@ func AuthMiddleware() gin.HandlerFunc {
 
 		parts := strings.Split(tokenStr, " ")
 		if len(parts) != 2 || parts[0] != "Bearer" {
+			fmt.Fprintf(os.Stderr, "Invalid Authorization format: %v\n", parts)
 			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
 				"code":    http.StatusUnauthorized,
 				"message": "Invalid authorization format",
@@ -41,16 +52,20 @@ func AuthMiddleware() gin.HandlerFunc {
 		}
 
 		token := parts[1]
-		if token == "" {
+
+		// Verify the Supabase JWT token
+		userID, err := supabaseClient.VerifyJWT(token)
+		if err != nil {
+
 			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
 				"code":    http.StatusUnauthorized,
-				"message": "Empty token",
+				"message": "Invalid token: " + err.Error(),
 			})
 			return
 		}
 
-		// Token-Format OK - User-ID als Platzhalter setzen
-		ctx := context.WithValue(c.Request.Context(), UserIDKey, "user-from-token")
+		// Store user ID in context
+		ctx := context.WithValue(c.Request.Context(), UserIDKey, userID)
 		c.Request = c.Request.WithContext(ctx)
 
 		c.Next()

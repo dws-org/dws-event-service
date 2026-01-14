@@ -10,6 +10,7 @@ import (
 	"fmt"
 	"math/big"
 	"net/http"
+	"os"
 	"strings"
 	"sync"
 	"time"
@@ -125,6 +126,12 @@ func jwkToPublicKey(k jwk) (*rsa.PublicKey, error) {
 // KeycloakAuthMiddleware validates a Keycloak-issued JWT access token from the Authorization header.
 // On success, it stores the user ID (subject) in the request context under UserIDKey.
 func KeycloakAuthMiddleware() gin.HandlerFunc {
+    
+	if os.Getenv("DISABLE_KEYCLOAK_AUTH") == "true" {
+		return func(c *gin.Context) {
+			c.Next()
+		}
+	}
 	cfg := configs.GetEnvConfig()
 	kc := cfg.Keycloak
 

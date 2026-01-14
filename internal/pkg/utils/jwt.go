@@ -40,9 +40,10 @@ func JwtVerify(tokenStr string) (*Claims, error) {
 		return []byte(Envconfig.JWT.Secret), nil
 	})
 
-	if !token.Valid || err != nil {
-		return nil, fmt.Errorf("token invalid")
-	}
+	if err != nil || token == nil || !token.Valid {
+    return nil, fmt.Errorf("token invalid")
+   }
+
 	claims, ok := token.Claims.(*Claims)
 
 	if float64(claims.ExpiresAt.Unix()) < float64(time.Now().Unix()) {
