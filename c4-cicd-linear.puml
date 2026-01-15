@@ -1,0 +1,102 @@
+@startuml C4_CICD_Linear_Flow
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Sequence.puml
+
+title CI/CD Pipeline - Linear Flow (Event Service & Ticket Service)
+
+Person(dev, "Developer")
+System_Ext(github, "GitHub")
+Container(actions, "GitHub Actions")
+ContainerDb(cache, "Cache")
+Container(test_runner, "Test Runner")
+ContainerDb(postgres, "PostgreSQL\n(Ticket only)")
+Container(linter, "Linter\n(Ticket only)")
+Container(builder, "Docker Builder")
+ContainerDb(ghcr, "GHCR")
+System(argocd, "ArgoCD")
+System(k8s, "Kubernetes")
+System_Ext(codecov, "Codecov")
+
+== Code Push ==
+
+Rel(dev, github, "1. git push main", "HTTPS")
+Rel(github, actions, "2. Webhook trigger", "Push event")
+
+== Parallel Jobs Start ==
+
+note right of actions
+  Event Service: test → build
+  Ticket Service: test + lint → build
+end note
+
+== Event Service: Test Job ==
+
+Rel(actions, test_runner, "3a. Checkout code")
+Rel(test_runner, cache, "4a. Check Go modules cache")
+Rel(cache, test_runner, "5a. Restore cached modules")
+Rel(test_runner, test_runner, "6a. go test ./...\n- configs\n- controllers\n- middlewares\n- pkg/logger (100%)\n- pkg/metrics (100%)\n- pkg/utils (78.9%)")
+Rel(test_runner, test_runner, "7a. Generate coverage\n20.5% total")
+Rel(test_runner, codecov, "8a. Upload coverage.out")
+Rel(test_runner, actions, "9a. ✅ Tests passed", "Exit code 0")
+
+== Ticket Service: Test Job (Parallel) ==
+
+Rel(actions, postgres, "3b. Start PostgreSQL\ncontainer")
+Rel(postgres, postgres, "Health check:\npg_isready")
+Rel(actions, test_runner, "4b. Checkout code")
+Rel(test_runner, cache, "5b. Check Go modules cache")
+Rel(test_runner, test_runner, "6b. Prisma generate")
+Rel(test_runner, postgres, "7b. Prisma db push\nCreate schema")
+Rel(test_runner, test_runner, "8b. go test ./...\nwith DATABASE_URL")
+Rel(test_runner, test_runner, "9b. Check threshold\n≥ 15%")
+Rel(test_runner, codecov, "10b. Upload coverage")
+Rel(test_runner, actions, "11b. ✅ Tests passed")
+
+== Ticket Service: Lint Job (Parallel) ==
+
+Rel(actions, linter, "3c. Checkout code")
+Rel(linter, linter, "4c. Prisma generate")
+Rel(linter, linter, "5c. golangci-lint\n--timeout=5m")
+Rel(linter, actions, "6c. ✅ Lint passed")
+
+== Event Service: Build & Push ==
+
+note right of builder
+  Needs: test job success
+end note
+
+Rel(actions, builder, "10a. Checkout code")
+Rel(builder, builder, "11a. docker buildx")
+Rel(builder, ghcr, "12a. Login ghcr.io")
+Rel(builder, builder, "13a. Build image\nFROM golang:1.23")
+Rel(builder, ghcr, "14a. Push tags:\n- latest\n- {sha}")
+Rel(builder, actions, "15a. ✅ Build complete")
+
+== Ticket Service: Build ==
+
+note right of builder
+  Needs: test + lint success
+end note
+
+Rel(actions, builder, "12b. Checkout code")
+Rel(builder, builder, "13b. Build API image")
+Rel(builder, ghcr, "14b. Push API:\n- latest\n- {sha}")
+Rel(builder, builder, "15b. Build Consumer image")
+Rel(builder, ghcr, "16b. Push Consumer:\n- latest\n- {sha}")
+Rel(builder, actions, "17b. ✅ Build complete")
+
+== Deployment ==
+
+Rel(ghcr, argocd, "16. Webhook:\nNew image available", "Image manifest")
+Rel(argocd, argocd, "17. Poll GitOps repo\nCheck for changes")
+Rel(argocd, k8s, "18. kubectl apply\nRolling update")
+Rel(k8s, ghcr, "19. Pull image", "Image layer by layer")
+Rel(k8s, k8s, "20. Health check\n/livez, /readyz")
+Rel(k8s, argocd, "21. Pods ready", "Status: Running")
+
+== Monitoring ==
+
+Rel(codecov, codecov, "Coverage trend:\nEvent: 20.5%\nTicket: ~0.7%")
+
+SHOW_LEGEND()
+
+@enduml

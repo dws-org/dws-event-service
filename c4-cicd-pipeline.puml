@@ -1,0 +1,62 @@
+@startuml C4_CICD_Pipeline
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Deployment.puml
+
+LAYOUT_LEFT_RIGHT()
+
+title CI/CD Pipeline Flow - DWS Platform
+
+Person(dev, "Developer", "Pushes code to GitHub")
+
+System_Boundary(github, "GitHub") {
+    Container(repo, "Git Repository", "GitHub", "Source code")
+    Container(actions, "GitHub Actions", "CI/CD", "Workflow automation")
+    Container(ghcr, "Container Registry", "GHCR", "Docker images")
+}
+
+System_Boundary(cicd_event, "Event Service Pipeline") {
+    Component(test_event, "Test Job", "Go Test", "Run unit tests\n20.5% coverage")
+    Component(build_event, "Build & Push", "Docker", "Build image\nPush to GHCR")
+}
+
+System_Boundary(cicd_ticket, "Ticket Service Pipeline") {
+    Component(test_ticket, "Test Job", "Go Test + PostgreSQL", "Run tests with DB\n15% threshold")
+    Component(lint_ticket, "Lint Job", "golangci-lint", "Code quality checks")
+    Component(build_ticket, "Build Job", "Docker", "Build API + Consumer\nPush to GHCR")
+}
+
+System_Boundary(k8s, "Kubernetes Cluster") {
+    Container(argocd, "ArgoCD", "GitOps", "Watches GitOps repo\nAuto-deploys")
+    Container(pods, "Service Pods", "Kubernetes", "Event + Ticket services")
+}
+
+System_Boundary(monitoring, "Monitoring") {
+    Container(codecov, "Codecov", "Coverage Reports", "Track test coverage")
+    Container(prometheus, "Prometheus", "Metrics", "Service metrics")
+}
+
+Rel(dev, repo, "git push", "HTTPS")
+Rel(repo, actions, "Triggers", "Webhook")
+
+' Event Service Flow
+Rel(actions, test_event, "Runs", "1. Test")
+Rel(test_event, codecov, "Upload", "coverage.out")
+Rel(test_event, build_event, "Success →", "2. Build")
+Rel(build_event, ghcr, "Push", "Image tag: sha")
+
+' Ticket Service Flow
+Rel(actions, test_ticket, "Runs", "1. Test")
+Rel(actions, lint_ticket, "Runs", "2. Lint")
+Rel(test_ticket, codecov, "Upload", "coverage.out")
+Rel(lint_ticket, build_ticket, "Both success →", "3. Build")
+Rel(build_ticket, ghcr, "Push", "API + Consumer")
+
+' Deployment
+Rel(ghcr, argocd, "New image", "Detects")
+Rel(argocd, pods, "Deploys", "Rolling update")
+
+' Monitoring
+Rel(pods, prometheus, "Exposes", "/metrics")
+
+SHOW_LEGEND()
+
+@enduml
